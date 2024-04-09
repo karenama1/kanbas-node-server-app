@@ -17,18 +17,33 @@ export default function AssignmentRoutes(app) {
         res.send(assignments);
     });
 
+    app.get("/api/assignments/:assignmentId", (req, res) => {
+        const { assignmentId } = req.params;
+        const assignment = db.assignments.find((assignment) => assignment._id === assignmentId);
+    
+        if (assignment) {
+            res.status(200).send(assignment);
+        } else {
+            res.status(404).send({ message: 'Assignment not found' });
+        }
+    });
+
     //Update
     app.put("/api/assignments/:assignmentId", (req, res) => {
         const { assignmentId } = req.params;
+        const { title, course } = req.body;
+
         const assignmentIndex = db.assignments.findIndex(
-        (assignemnt) => assignment._id === assignmentId);
+        assignment => assignment._id === assignmentId);
         
         if (assignmentIndex === -1) {
             res.status(404).send({ message: 'Assignment not found' });
-        } else {
-            db.assignments[assignmentIndex] = { ...db.assignments[assignmentIndex], ...req.body };
-            res.status(200).send(db.assignments[assignmentIndex]); // 200 OK with the updated assignment
+            return;
         }
+        db.assignments[assignmentIndex].title = title;
+        db.assignments[assignmentIndex].course = course;
+
+        res.json(db.assignments[assignmentIndex]);
     });
     
 
