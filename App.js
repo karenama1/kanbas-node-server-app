@@ -10,7 +10,7 @@ import AssignmentRoutes from './Kanbas/Assignments/routes.js';
 import UserRoutes from "./Users/routes.js";
 import "dotenv/config";
 
-const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING 
 const DB_NAME = process.env.DB_NAME;
 
 mongoose.connect(CONNECTION_STRING, {dbName: DB_NAME});
@@ -23,7 +23,7 @@ app.use(cors({
   }));
 
 const sessionOptions = {
-        secret: process.env.SESSION_SECRET,
+        secret: supersessionsecret,
         resave: false,
         saveUninitialized: false,
         proxy: true,
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "development") {
     sessionOptions.cookie = {
       sameSite: "none",
       secure: true,
-      domain: process.env.HTTP_SERVER_DOMAIN,
+      domain: "kanbas-node-server-app-6.onrender.com",
 };
 }
 app.use(
